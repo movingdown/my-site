@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>이동하 — Developer</title>
+<meta name="description" content="호기심을 코드로 옮기는 개발자, 이동하의 자기소개 페이지" />
+<style>
+  :root {
+    --bg-0: #0a0a0f;
+    --bg-1: #0f0c29;
+    --bg-2: #1a1730;
+    --line: rgba(255,255,255,0.08);
+    --line-2: rgba(255,255,255,0.14);
+    --text: #e8e8ee;
+    --muted: #9b9bab;
+    --muted-2: #6e6e80;
+    --accent: #8e2de2;
+    --accent-2: #4a00e0;
+    --accent-soft: rgba(142,45,226,0.14);
+    --mono: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Consolas, "Courier New", monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Pretendard",
+            "Apple SD Gothic Neo", system-ui, sans-serif;
+    --radius: 14px;
+    --maxw: 1080px;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    color: var(--text);
+    background: var(--bg-0);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(900px 500px at 85% -10%, rgba(142,45,226,0.18), transparent 60%),
+      radial-gradient(700px 500px at -10% 20%, rgba(74,0,224,0.18), transparent 60%),
+      linear-gradient(180deg, var(--bg-1) 0%, var(--bg-0) 60%);
+    z-index: -2;
+  }
+  body::after {
+    content: "";
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(ellipse at 50% 30%, #000 40%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 30%, #000 40%, transparent 75%);
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  a { color: inherit; }
+
+  .skip-link {
+    position: absolute; left: -9999px; top: 0;
+    background: #000; color: #fff; padding: 0.6rem 1rem; z-index: 100;
+  }
+  .skip-link:focus { left: 1rem; top: 1rem; }
+
+  /* ---------- Nav ---------- */
+  .nav {
+    position: sticky; top: 0; z-index: 20;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background: rgba(10,10,15,0.55);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav__inner {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0.85rem 1.25rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav__logo {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    font-family: var(--mono); font-size: 0.95rem;
+    text-decoration: none; color: var(--text);
+  }
+  .nav__prompt { color: var(--accent); }
+  .nav__caret {
+    color: var(--accent);
+    animation: blink 1.1s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  .nav__links { display: flex; gap: 1.25rem; }
+  .nav__links a {
+    font-family: var(--mono); font-size: 0.85rem;
+    color: var(--muted); text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  .nav__links a:hover { color: var(--text); }
+
+  /* ---------- Layout ---------- */
+  main { max-width: var(--maxw); margin: 0 auto; padding: 0 1.25rem; }
+  section { padding: 5rem 0; border-bottom: 1px dashed var(--line); }
+  section:last-of-type { border-bottom: none; }
+
+  .section__head { margin-bottom: 2.25rem; }
+  .section__eyebrow {
+    font-family: var(--mono); font-size: 0.8rem;
+    color: var(--accent); letter-spacing: 0.04em;
+    margin: 0 0 0.6rem;
+  }
+  .section__title {
+    font-size: clamp(1.6rem, 3.2vw, 2.1rem);
+    font-weight: 700; margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .section__lead {
+    color: var(--muted); margin: 0.8rem 0 0; max-width: 60ch;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero { padding: 6rem 0 5rem; border-bottom: 1px dashed var(--line); }
+  .hero__inner {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+  .hero__eyebrow {
+    display: inline-flex; align-items: center; gap: 0.55rem;
+    font-family: var(--mono); font-size: 0.8rem;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    margin: 0 0 1.4rem;
+    background: rgba(255,255,255,0.02);
+  }
+  .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #2bd47d;
+    box-shadow: 0 0 0 4px rgba(43,212,125,0.18);
+  }
+  .hero__title {
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    line-height: 1.1; margin: 0 0 1rem;
+    letter-spacing: -0.02em; font-weight: 800;
+  }
+  .grad {
+    background: linear-gradient(135deg, #fff 0%, #c4a7ff 60%, #8e2de2 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero__sub {
+    font-size: clamp(1rem, 1.4vw, 1.15rem);
+    color: var(--muted); margin: 0 0 1.8rem; max-width: 46ch;
+  }
+  .hero__cta { display: flex; gap: 0.7rem; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.8rem 1.2rem; border-radius: 10px;
+    font-size: 0.95rem; font-weight: 500;
+    text-decoration: none; cursor: pointer;
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    border: 1px solid transparent;
+  }
+  .btn--primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: #fff;
+    box-shadow: 0 8px 24px rgba(142,45,226,0.3);
+  }
+  .btn--primary:hover { transform: translateY(-2px); }
+  .btn--ghost {
+    background: rgba(255,255,255,0.02);
+    border-color: var(--line-2);
+    color: var(--text);
+  }
+  .btn--ghost:hover { background: var(--accent-soft); border-color: var(--accent); }
+
+  .hero__photo {
+    margin: 0;
+    display: flex; flex-direction: column; align-items: stretch; gap: 1rem;
+    width: 100%; max-width: 320px;
+    margin-left: auto;
+  }
+  .hero__photo-frame {
+    position: relative;
+    width: 100%; aspect-ratio: 1 / 1;
+    border-radius: 22px;
+    padding: 3px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2), #2a2547);
+    box-shadow: 0 30px 60px -20px rgba(142,45,226,0.35),
+                0 0 0 1px var(--line) inset;
+  }
+  .hero__photo-frame img,
+  .hero__photo-fallback {
+    width: 100%; height: 100%;
+    border-radius: 19px;
+    object-fit: cover;
+    display: block;
+    background: #15121f;
+  }
+  .hero__photo-fallback {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 5rem; font-weight: 800;
+    color: #fff;
+    background: linear-gradient(135deg, #2a2547, #15121f);
+    font-family: var(--mono);
+  }
+
+  .hero__code {
+    margin: 0;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.75;
+    padding: 0.95rem 1.1rem;
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    color: var(--muted);
+    white-space: pre;
+    overflow-x: auto;
+    position: relative;
+  }
+  .hero__code::before {
+    content: "● ● ●";
+    position: absolute; top: 8px; right: 12px;
+    font-size: 0.5rem; letter-spacing: 0.25em;
+    color: var(--muted-2);
+  }
+  .tk-c { color: var(--muted-2); }
+  .tk-k { color: #c4a7ff; }
+  .tk-n { color: #f5f5f7; }
+  .tk-p { color: #87b9ff; }
+  .tk-s { color: #b6e3a3; }
+
+  /* ---------- Hobbies ---------- */
+  .cards {
+    list-style: none; margin: 0; padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  .card {
+    position: relative;
+    padding: 1.6rem 1.4rem 1.4rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.005));
+    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    overflow: hidden;
+  }
+  .card::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(400px 200px at var(--mx,50%) var(--my,0%), var(--accent-soft), transparent 60%);
+    opacity: 0; transition: opacity 0.25s ease;
+    pointer-events: none;
+  }
+  .card:hover { transform: translateY(-3px); border-color: var(--line-2); }
+  .card:hover::before { opacity: 1; }
+
+  .card__icon {
+    width: 38px; height: 38px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 10px;
+    background: var(--accent-soft);
+    color: #d6c2ff;
+    margin-bottom: 1rem;
+  }
+  .card__icon svg { width: 20px; height: 20px; }
+  .card__title {
+    font-size: 1.1rem; font-weight: 600; margin: 0 0 0.5rem;
+  }
+  .card__desc {
+    color: var(--muted); margin: 0 0 1rem; font-size: 0.95rem;
+  }
+  .card__tag {
+    margin: 0;
+    font-family: var(--mono); font-size: 0.78rem;
+    color: var(--muted-2);
+  }
+  .card__link {
+    position: absolute; inset: 0;
+    z-index: 2;
+    border-radius: inherit;
+  }
+  .card__link:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: inherit;
+  }
+
+  /* ---------- Contact ---------- */
+  .links {
+    list-style: none; margin: 0; padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.8rem;
+  }
+  .link {
+    display: flex; align-items: center; gap: 0.85rem;
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: rgba(255,255,255,0.02);
+    color: var(--text);
+    text-decoration: none;
+    transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+  .link:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+  .link__icon {
+    flex-shrink: 0;
+    width: 38px; height: 38px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.04);
+    color: #d6c2ff;
+  }
+  .link__icon svg { width: 18px; height: 18px; }
+  .link__label {
+    display: block;
+    font-size: 0.8rem; color: var(--muted);
+    font-family: var(--mono);
+  }
+  .link__value {
+    display: block;
+    font-size: 0.95rem; color: var(--text);
+    word-break: break-all;
+  }
+  .link__text {
+    display: flex; flex-direction: column; gap: 2px; min-width: 0;
+  }
+
+  /* ---------- Footer ---------- */
+  .footer {
+    text-align: center;
+    padding: 2.5rem 1.25rem 3rem;
+    color: var(--muted-2);
+    font-family: var(--mono); font-size: 0.82rem;
+    border-top: 1px solid var(--line);
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 880px) {
+    .hero__inner {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    .hero__photo { order: -1; margin-left: 0; max-width: 280px; }
+    .cards { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 560px) {
+    .nav__links { gap: 0.9rem; }
+    section { padding: 3.5rem 0; }
+    .hero { padding: 3.5rem 0; }
+    .cards { grid-template-columns: 1fr; }
+    .hero__photo { max-width: 220px; }
+    .hero__code { font-size: 0.72rem; padding: 0.8rem 0.95rem; }
+    .btn { width: 100%; justify-content: center; }
+    .hero__cta { flex-direction: column; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation: none !important;
+      transition: none !important;
+      scroll-behavior: auto !important;
+    }
+  }
+</style>
+</head>
+<body>
+  <a class="skip-link" href="#main">본문 바로가기</a>
+
+  <header class="nav" aria-label="주요 메뉴">
+    <div class="nav__inner">
+      <a class="nav__logo" href="#top" aria-label="홈으로">
+        <span class="nav__prompt">$</span>
+        <span>이동하</span>
+        <span class="nav__caret" aria-hidden="true">_</span>
+      </a>
+      <nav class="nav__links">
+        <a href="#portfolio">Portfolio</a>
+        <a href="#hobbies">Hobbies</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ============== HERO ============== -->
+    <section id="top" class="hero" aria-labelledby="hero-title">
+      <div class="hero__inner">
+        <div class="hero__text">
+          <p class="hero__eyebrow">
+            <span class="dot" aria-hidden="true"></span>
+            available for projects
+          </p>
+          <h1 id="hero-title" class="hero__title">
+            안녕하세요,<br />
+            <span class="grad">이동하</span> 입니다.
+          </h1>
+          <p class="hero__sub">호기심을 코드로 옮기는 개발자. 작은 아이디어를 동작하는 무언가로 만드는 일을 좋아합니다.</p>
+          <div class="hero__cta">
+            <a class="btn btn--primary" href="#contact">연락하기 →</a>
+            <a class="btn btn--ghost" href="#hobbies">소개 보기</a>
+          </div>
+        </div>
+
+        <figure class="hero__photo">
+          <div class="hero__photo-frame">
+            <img
+              src="data:image/jpeg;base64,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"
+              alt="이동하 프로필 이미지"
+              loading="eager"
+              decoding="async"
+              onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'hero__photo-fallback',textContent:'이'}))"
+            />
+          </div>
+          <pre class="hero__code" aria-hidden="true"><span class="tk-c">// about.js</span>
+<span class="tk-k">const</span> <span class="tk-n">me</span> = {
+  <span class="tk-p">role</span>: <span class="tk-s">'developer'</span>,
+  <span class="tk-p">enjoys</span>: [<span class="tk-s">'🎮'</span>, <span class="tk-s">'🎬'</span>, <span class="tk-s">'🎵'</span>],
+  <span class="tk-p">status</span>: <span class="tk-s">'🟢 active'</span>
+}</pre>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============== PORTFOLIO ============== -->
+    <section id="portfolio" aria-labelledby="portfolio-title">
+      <div class="section__head">
+        <p class="section__eyebrow">// portfolio</p>
+        <h2 id="portfolio-title" class="section__title">만든 것들</h2>
+        <p class="section__lead">직접 만들어본 프로젝트. 소스 코드는 GitHub에서 확인할 수 있어요.</p>
+      </div>
+
+      <ul class="cards" role="list">
+        <li class="card">
+          <a class="card__link" href="https://github.com/movingdown/StudyPlanner" target="_blank" rel="noopener noreferrer" aria-label="StudyPlanner GitHub 저장소 열기"></a>
+          <div class="card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 18 22 12 16 6" />
+              <polyline points="8 6 2 12 8 18" />
+            </svg>
+          </div>
+          <h3 class="card__title">StudyPlanner</h3>
+          <p class="card__desc">Java Swing으로 만든 학습 일정 관리 데스크톱 앱. MVC 패턴으로 구조를 나누고, 일정을 텍스트 파일에 저장·불러옵니다.</p>
+          <p class="card__tag">#Java #Swing #MVC</p>
+        </li>
+
+        <li class="card">
+          <a class="card__link" href="https://github.com/movingdown/SmartFileOrganizer" target="_blank" rel="noopener noreferrer" aria-label="SmartFileOrganizer GitHub 저장소 열기"></a>
+          <div class="card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+              <line x1="8" y1="13" x2="16" y2="13" />
+              <line x1="8" y1="17" x2="13" y2="17" />
+            </svg>
+          </div>
+          <h3 class="card__title">SmartFileOrganizer</h3>
+          <p class="card__desc">뒤섞인 폴더의 파일을 확장자 기준으로 이미지·문서·동영상 등 카테고리별로 자동 분류해 주는 Python 데스크톱 도구. Tkinter만 사용해 외부 의존성 없이 동작합니다.</p>
+          <p class="card__tag">#Python #Tkinter #Automation</p>
+        </li>
+
+        <li class="card">
+          <a class="card__link" href="https://github.com/movingdown/TrendAnalyzer" target="_blank" rel="noopener noreferrer" aria-label="TrendAnalyzer GitHub 저장소 열기"></a>
+          <div class="card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 17 9 11 13 15 21 7" />
+              <polyline points="15 7 21 7 21 13" />
+            </svg>
+          </div>
+          <h3 class="card__title">TrendAnalyzer</h3>
+          <p class="card__desc">관심 키워드의 트렌드 데이터를 수집·분석해 시간 흐름에 따른 변화를 한눈에 보여주는 도구. 데이터 시각화로 인사이트를 빠르게 확인할 수 있습니다.</p>
+          <p class="card__tag">#Python #DataAnalysis #Visualization</p>
+        </li>
+
+        <li class="card">
+          <a class="card__link" href="https://github.com/movingdown/ExamSurvival" target="_blank" rel="noopener noreferrer" aria-label="ExamSurvival GitHub 저장소 열기"></a>
+          <div class="card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="6" y1="11" x2="10" y2="11" />
+              <line x1="8" y1="9" x2="8" y2="13" />
+              <line x1="15" y1="12" x2="15.01" y2="12" />
+              <line x1="18" y1="10" x2="18.01" y2="10" />
+              <path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z" />
+            </svg>
+          </div>
+          <h3 class="card__title">ExamSurvival</h3>
+          <p class="card__desc">시험 기간의 캠퍼스를 무대로 한 탑다운 픽셀 로그라이크 게임. 외부 라이브러리·이미지·사운드 파일 없이 바닐라 JS와 Canvas, Web Audio API만으로 구현했습니다.</p>
+          <p class="card__tag">#JavaScript #Canvas #Game</p>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ============== HOBBIES ============== -->
+    <section id="hobbies" aria-labelledby="hobbies-title">
+      <div class="section__head">
+        <p class="section__eyebrow">// hobbies</p>
+        <h2 id="hobbies-title" class="section__title">코드 밖의 시간들</h2>
+        <p class="section__lead">개발 외에 좋아하는 것들. 새로운 것을 배우고 만들 때 가장 즐겁습니다.</p>
+      </div>
+
+      <ul class="cards" role="list">
+        <li class="card">
+          <div class="card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="6" y1="11" x2="10" y2="11" />
+              <line x1="8" y1="9" x2="8" y2="13" />
+              <line x1="15" y1="12" x2="15.01" y2="12" />
+              <line x1="18" y1="10" x2="18.01" y2="10" />
+              <path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z" />
+            </svg>
+          </div>
+          <h3 class="card__title">게임</h3>
+          <p class="card__desc">하루 끝의 가장 좋아하는 시간. 친구들과 협동 플레이도, 혼자 깊게 파고드는 솔로 플레이도 모두 즐깁니다.</p>
+          <p class="card__tag">#PC #콘솔 #멀티</p>
+        </li>
+
+        <li class="card">
+          <div class="card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="2.18" />
+              <line x1="7" y1="2" x2="7" y2="22" />
+              <line x1="17" y1="2" x2="17" y2="22" />
+              <line x1="2" y1="12" x2="22" y2="12" />
+              <line x1="2" y1="7" x2="7" y2="7" />
+              <line x1="2" y1="17" x2="7" y2="17" />
+              <line x1="17" y1="17" x2="22" y2="17" />
+              <line x1="17" y1="7" x2="22" y2="7" />
+            </svg>
+          </div>
+          <h3 class="card__title">영화 시청</h3>
+          <p class="card__desc">장르 가리지 않고 봅니다. 좋은 영화는 두세 번씩 다시 보고, 인상 깊은 장면은 오래 기억에 남겨두는 편이에요.</p>
+          <p class="card__tag">#영화 #OTT #극장</p>
+        </li>
+
+        <li class="card">
+          <div class="card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18V5l12-2v13" />
+              <circle cx="6" cy="18" r="3" />
+              <circle cx="18" cy="16" r="3" />
+            </svg>
+          </div>
+          <h3 class="card__title">음악 감상</h3>
+          <p class="card__desc">출퇴근길과 작업할 때 늘 함께. 새 플레이리스트 발굴이 작은 즐거움이고, 가끔 발견하는 명곡 하나에 그날이 좋아집니다.</p>
+          <p class="card__tag">#playlist #장르무관</p>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ============== CONTACT ============== -->
+    <section id="contact" aria-labelledby="contact-title">
+      <div class="section__head">
+        <p class="section__eyebrow">// contact</p>
+        <h2 id="contact-title" class="section__title">함께 이야기해요</h2>
+        <p class="section__lead">메시지나 메일 환영합니다. 보통 24시간 안에 답장드립니다.</p>
+      </div>
+
+      <ul class="links" role="list">
+        <li>
+          <a class="link" href="mailto:dongha8268@naver.com">
+            <span class="link__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="5" width="18" height="14" rx="2" />
+                <path d="M3 7l9 6 9-6" />
+              </svg>
+            </span>
+            <span class="link__text">
+              <span class="link__label">Email</span>
+              <span class="link__value">dongha8268@naver.com</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a class="link" href="https://github.com/movingdown" target="_blank" rel="noopener noreferrer">
+            <span class="link__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.69-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.09-.12-.29-.51-1.45.11-3.03 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.21-1.49 3.18-1.18 3.18-1.18.62 1.58.23 2.74.11 3.03.74.8 1.18 1.83 1.18 3.09 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.13 0 1.54-.01 2.78-.01 3.16 0 .31.21.68.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/>
+              </svg>
+            </span>
+            <span class="link__text">
+              <span class="link__label">GitHub</span>
+              <span class="link__value">@movingdown</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a class="link" href="https://www.instagram.com/moving_down/" target="_blank" rel="noopener noreferrer">
+            <span class="link__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" />
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+              </svg>
+            </span>
+            <span class="link__text">
+              <span class="link__label">Instagram</span>
+              <span class="link__value">@moving_down</span>
+            </span>
+          </a>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> 이동하 — built with HTML &amp; CSS.</p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // 카드 호버 글로우 (마우스 따라가는 라이트)
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+        card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+      });
+    });
+  </script>
+</body>
+</html>
